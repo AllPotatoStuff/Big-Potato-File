@@ -1,0 +1,87 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Build and Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Make and Run",
+            "program": "${workspaceFolder}/main.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "environment": [],
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+        {
+            "name": "Build Parallel and Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Make Parallel and Run",
+            "program": "${workspaceFolder}/main.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "environment": [],
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+        {
+            "name": "Re-Build and Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Re-Make and Run",
+            "program": "${workspaceFolder}/main.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "environment": [],
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+        {
+            "name": "Re-Build Parallel and Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Re-Make Parallel and Run",
+            "program": "${workspaceFolder}/main.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "environment": [],
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+        {
+            "name": "Clean",
+            "type": "node-terminal",
+            // "request": "launch",
+            "preLaunchTask": "Make Clean",
+        }
+    ]
+}
