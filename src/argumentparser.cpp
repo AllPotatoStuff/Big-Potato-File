@@ -19,13 +19,13 @@ AppOptions ArgumentParser::parse(int argc, char *argv[]) {
         invalidArgument("Tool option is a necessery argument.");
       }
 
-      auto it = std::find(TOOLS.begin(), TOOLS.end(), argv[i + 1]);
+      std::string toolArg = argv[i + 1];
+      auto tool = toolsFromString(toolArg);
 
-      if (it != TOOLS.end()) {
-        options.tool = argv[i + 1];
+      if (tool.has_value()) {
+        options.tool = tool.value();
       } else {
-        invalidArgument(
-            std::format("The tool {} does not exist.", argv[i + 1]));
+        invalidArgument(std::format("The tool {} does not exist.", toolArg));
       }
     } else if (arg == "-h" || arg == "-help") {
       printUsage();

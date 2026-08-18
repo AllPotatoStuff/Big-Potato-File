@@ -5,13 +5,13 @@
 #include <config.h>
 #include <format>
 #include <iostream>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
 
-
 struct AppOptions {
-  std::string tool;
+  Tools tool;
 };
 
 class ArgumentParser {
