@@ -5,7 +5,7 @@ OBJS = $(SRCS:.cpp=.o)
 BINFILE = ./bigpotatofile.exe
 CC = g++
 
-COMPILER_FLAGS = -finline-functions -std=c++17 -Iinclude
+COMPILER_FLAGS = -finline-functions -std=c++20 -Iinclude
 LINKER_FLAGS = -lm -lpthread
 
 # Release:
