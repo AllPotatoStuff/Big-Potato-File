@@ -1,12 +1,11 @@
-rwildcard = $(foreach d,$(wildcard $(1)*),$(call rwildcard,$(d)/,$(2)) $(filter $(subst *,%,$(2)),$(d)))
+rwildcard = $(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-SRCS = $(wildcard *.cpp) $(call rwildcard,src/,*.cpp)
+SRCS = main.cpp $(call rwildcard,src,*.cpp)
 OBJS = $(SRCS:.cpp=.o)
-BINFILE = ./main.exe
+BINFILE = ./bigpotatofile.exe
 CC = g++
 
-INCLUDES = -I. -Iinclude -Iinclude/filesystem
-COMPILER_FLAGS = -finline-functions -std=c++17 $(INCLUDES)
+COMPILER_FLAGS = -finline-functions -std=c++20 -Iinclude
 LINKER_FLAGS = -lm -lpthread
 
 # Release:
@@ -14,8 +13,10 @@ LINKER_FLAGS = -lm -lpthread
 #LFLAGS = $(LINKER_FLAGS)
 
 # Debug:
-CFLAGS = -g -W -Wall $(COMPILER_FLAGS) -Wno-write-strings -Wno-unused-parameter -Wno-switch -Wno-reorder -DDEBUGMODE -DDEBUG
+CFLAGS = -g -W -Wall $(COMPILER_FLAGS) -Wno-write-strings -Wno-unused-parameter -Wno-switch -Wno-reorder -DDEBUGMODE -DDEBUG -MMD -MP
 LFLAGS = $(LINKER_FLAGS)
+
+DEPS = $(OBJS:.o=.d)
 
 all : $(BINFILE)
 
@@ -27,10 +28,8 @@ $(BINFILE) : $(OBJS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f Makefile.bak
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(DEPS)
 	@rm -f $(BINFILE)
-	@rm -rf ./out/
 
 depend:
 	@$(CC) -MM $(CFLAGS) $(SRCS) > Makefile.dep
