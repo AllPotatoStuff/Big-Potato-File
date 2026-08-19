@@ -1,9 +1,12 @@
-SRCS = $(wildcard *.cpp)
+rwildcard = $(foreach d,$(wildcard $(1)*),$(call rwildcard,$(d)/,$(2)) $(filter $(subst *,%,$(2)),$(d)))
+
+SRCS = $(wildcard *.cpp) $(call rwildcard,src/,*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 BINFILE = ./main.exe
 CC = g++
 
-COMPILER_FLAGS = -finline-functions -std=c++17
+INCLUDES = -I. -Iinclude -Iinclude/filesystem
+COMPILER_FLAGS = -finline-functions -std=c++17 $(INCLUDES)
 LINKER_FLAGS = -lm -lpthread
 
 # Release:
