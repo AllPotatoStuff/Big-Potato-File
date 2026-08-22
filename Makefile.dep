@@ -1,1 +1,2 @@
-# Vide
+main.o: main.cpp include/filesystem/scanner.h
+scanner.o: src/filesystem/scanner.cpp include/filesystem/scanner.h
