@@ -11,10 +11,11 @@ void runScan(const ScanOptions &options) {
 
   ResultEndScan resultat = scanner.PathScanner(path);
 
-  std::cout << resultat.fileCount << "\n";
+  std::cout << "Files: " << resultat.fileCount << "\n";
+  std::cout << "Directories: " << resultat.folderCount << "\n";
 
   std::cout << std::fixed << std::setprecision(2);
-  std::cout << resultat.totalMb << " Mo\n";
+  std::cout << "Size: " << resultat.totalMb << " Mo\n";
 }
 
 int main(int argc, char *argv[]) {

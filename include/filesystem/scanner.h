@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-
 /**
  * @struct ResultEndScan
  * @brief Structure to hold the result of scanning a directory.
@@ -13,10 +12,11 @@
  * @param fileCount The number of files in the directory.
  */
 struct ResultEndScan {
-    double totalMb; 
-    int fileCount;
+  double totalMb;
+  int fileCount;
+  int folderCount;
 
-    ResultEndScan() : totalMb(0.0), fileCount(0) {}
+  ResultEndScan() : totalMb(0.0), fileCount(0) {}
 };
 
 /**
@@ -29,12 +29,13 @@ struct ResultEndScan {
  * @param right Pointer to the right child node.
  */
 struct Node {
-    std::string dir;
-    int fileCount;
-    double sizeMb;
-    std::vector<Node*> children; // Vector to hold child nodes for subdirectories.
+  std::string dir;
+  int fileCount;
+  double sizeMb;
+  std::vector<Node *>
+      children; // Vector to hold child nodes for subdirectories.
 
-    Node() : dir(""), fileCount(0), sizeMb(0.0) {}
+  Node() : dir(""), fileCount(0), sizeMb(0.0) {}
 };
 
 /**
@@ -43,20 +44,23 @@ struct Node {
  */
 class Scanner {
 private:
-    Node* root; // Pointer to the root of the directory tree.
-    // Private member functions to manage the directory tree.
-    void insertNode(Node*& node, ResultEndScan& res);
-    // Private member function to free the memory allocated for the directory tree.
-    void freeTree(Node* node);
+  Node *root; // Pointer to the root of the directory tree.
+  // Private member functions to manage the directory tree.
+  void insertNode(Node *&node, ResultEndScan &res);
+  // Private member function to free the memory allocated for the directory
+  // tree.
+  void freeTree(Node *node);
+
 public:
-    Scanner();
-    ~Scanner();
-    /**
-     * @brief Scans the specified directory and returns the result.
-     * @param dir The directory path to scan. Defaults to "C:\\" if not specified on Windows.
-     * @return A ResultEndScan structure containing the total size and file count.
-     */
-    ResultEndScan PathScanner(std::string dir = "C:\\");
+  Scanner();
+  ~Scanner();
+  /**
+   * @brief Scans the specified directory and returns the result.
+   * @param dir The directory path to scan. Defaults to "C:\\" if not specified
+   * on Windows.
+   * @return A ResultEndScan structure containing the total size and file count.
+   */
+  ResultEndScan PathScanner(std::string dir = "C:\\");
 };
 
 #endif // SCANNER_H__
