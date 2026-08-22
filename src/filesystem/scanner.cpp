@@ -19,8 +19,6 @@ void Scanner::insertNode(Node*& node, ResultEndScan& res)
         std::cout << "Scanning directory: " << p << "\n";
         if (!fs::exists(p) || !fs::is_directory(p)) return;
 
-        Node* currentTail = nullptr;  // Pointer to keep track of the last child node added for sibling linking
-
         // Iterate through the directory entries
         for (const auto& entry : fs::directory_iterator(p)) {
             if (fs::is_regular_file(entry.path())) {
@@ -32,13 +30,7 @@ void Scanner::insertNode(Node*& node, ResultEndScan& res)
                 // if is a directory, create a new child node and link it as a sibling
                 Node* childNode = new Node();
                 childNode->dir = entry.path().string(); // Set the directory path for the child node
-
-                // Link the new child node to the current node's left child or as a sibling to the last added child
-                if (node->left == nullptr)
-                    node->left = childNode; // first child
-                else
-                    currentTail->right = childNode; // link as a sibling to the last added child
-                currentTail = childNode;
+                node->children.push_back(childNode); // Add the child node to the current node's children vector
             }
         }
     }
@@ -52,8 +44,9 @@ void Scanner::insertNode(Node*& node, ResultEndScan& res)
     res.fileCount += node->fileCount;
 
 
-    insertNode(node->left, res);
-    insertNode(node->right, res);
+    //Rescue into every child directory
+    for (Node* child : node->children)
+        insertNode(child, res);
 
 }
 
@@ -80,7 +73,7 @@ ResultEndScan Scanner::PathScanner(std::string dir)
 void Scanner::freeTree(Node* node)
 {
     if (node == nullptr) return;
-    freeTree(node->left);
-    freeTree(node->right);
+    for (Node* child : node->children)
+        freeTree(child);
     delete node;
 }

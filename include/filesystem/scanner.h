@@ -3,10 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 
 /**
- * @struct Result
+ * @struct ResultEndScan
  * @brief Structure to hold the result of scanning a directory.
  * @param totalMb The total size of files in the directory in megabytes.
  * @param fileCount The number of files in the directory.
@@ -31,10 +32,9 @@ struct Node {
     std::string dir;
     int fileCount;
     double sizeMb;
-    Node* left;
-    Node* right;
+    std::vector<Node*> children; // Vector to hold child nodes for subdirectories.
 
-    Node() : dir(""), fileCount(0), sizeMb(0.0), left(nullptr), right(nullptr) {}
+    Node() : dir(""), fileCount(0), sizeMb(0.0) {}
 };
 
 /**
