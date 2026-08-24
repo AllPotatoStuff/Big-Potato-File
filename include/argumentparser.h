@@ -1,8 +1,8 @@
 #ifndef ARGUMENTPARSER_H__
 #define ARGUMENTPARSER_H__
 
+#include "toolconfig.h"
 #include <algorithm>
-#include <config.h>
 #include <filesystem>
 #include <format>
 #include <iostream>
@@ -11,14 +11,19 @@
 #include <variant>
 #include <vector>
 
-
 struct ScanOptions {
   std::string path;
 
   std::optional<std::string> validate() const;
 };
 
-using ToolOptions = std::variant<ScanOptions>;
+struct IndexOptions {
+  std::string path;
+
+  std::optional<std::string> validate() const;
+};
+
+using ToolOptions = std::variant<ScanOptions, IndexOptions>;
 
 struct AppOptions {
   Tools tool;
@@ -33,6 +38,7 @@ private:
 
   void invalidArgument(std::string errorReason) const;
   ScanOptions parseScanOptions(int argc, char *argv[]);
+  IndexOptions parseIndexOptions(int argc, char *argv[]);
 
 public:
   AppOptions parse(int argc, char *argv[]);
