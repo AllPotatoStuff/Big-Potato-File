@@ -4,3 +4,6 @@
 *.dll
 *.d
 .vscode
+*.db
+*.db-shm
+*.db-wal
