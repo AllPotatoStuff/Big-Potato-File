@@ -9,7 +9,7 @@ void runScan(const ScanOptions &options) {
 
   std::cout << "Scaning folder : " << path << " ...\n";
 
-  ResultEndScan resultat = scanner.PathScanner(path);
+  ResultEndScan resultat = scanner.PathScannerSingleThread(path);
 
   std::cout << "Files: " << resultat.fileCount << "\n";
   std::cout << "Directories: " << resultat.folderCount << "\n";
@@ -20,18 +20,21 @@ void runScan(const ScanOptions &options) {
 
 void runIndex(const IndexOptions &options) {
   std::cout << "INDEX" << std::endl;
+  ThreadPool pool(std::thread::hardware_concurrency());
+  ConcurrentQueue<FileInfo> queue;
+  Indexer indexer(queue, "index.db");
+
   Scanner scanner;
-  std::string path = options.path;
 
-  std::cout << "Scaning folder : " << path << " ...\n";
+  indexer.start();
 
-  ResultEndScan resultat = scanner.PathScanner(path);
+  ResultEndScan res = scanner.PathScannerMultiThread(options.path, pool, queue);
 
-  std::cout << "Files: " << resultat.fileCount << "\n";
-  std::cout << "Directories: " << resultat.folderCount << "\n";
+  indexer.join();
 
-  std::cout << std::fixed << std::setprecision(2);
-  std::cout << "Size: " << resultat.totalMb << " Mo\n";
+  std::cout << res.fileCount << " files, " << res.folderCount
+            << " folder, " << res.totalMb << " Mo, " << indexer.indexedCount()
+            << " indexed entry\n";
 }
 
 int main(int argc, char *argv[]) {
