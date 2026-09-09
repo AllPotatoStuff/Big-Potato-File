@@ -1,10 +1,17 @@
 #ifndef SCANNER_H__
 #define SCANNER_H__
 
+#include "threadpool/concurrentqueue.h"
+#include "index/indexer.h" // for FileInfo
+#include "threadpool/threadpool.h"
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <filesystem>
 #include <iostream>
+#include <mutex>
 #include <string>
 #include <vector>
-
 
 /**
  * @struct ResultEndScan
@@ -13,10 +20,11 @@
  * @param fileCount The number of files in the directory.
  */
 struct ResultEndScan {
-    double totalMb; 
-    int fileCount;
+  double totalMb;
+  int fileCount;
+  int folderCount;
 
-    ResultEndScan() : totalMb(0.0), fileCount(0) {}
+  ResultEndScan() : totalMb(0.0), fileCount(0), folderCount(0) {}
 };
 
 /**
@@ -29,12 +37,12 @@ struct ResultEndScan {
  * @param right Pointer to the right child node.
  */
 struct Node {
-    std::string dir;
-    int fileCount;
-    double sizeMb;
-    std::vector<Node*> children; // Vector to hold child nodes for subdirectories.
+  std::string dir;
+  int fileCount;
+  double sizeMb;
+  std::vector<Node *> children;
 
-    Node() : dir(""), fileCount(0), sizeMb(0.0) {}
+  Node() : dir(""), fileCount(0), sizeMb(0.0) {}
 };
 
 /**
@@ -43,20 +51,30 @@ struct Node {
  */
 class Scanner {
 private:
-    Node* root; // Pointer to the root of the directory tree.
-    // Private member functions to manage the directory tree.
-    void insertNode(Node*& node, ResultEndScan& res);
-    // Private member function to free the memory allocated for the directory tree.
-    void freeTree(Node* node);
+  Node *m_root;
+
+  std::mutex m_resMtx;
+  std::mutex m_doneMtx;
+  std::condition_variable m_doneCv;
+  std::atomic<int> m_pendingTasks{0};
+
+private:
+  void insertNode(Node *&node, ResultEndScan &res);
+  // Private member function to free the memory allocated for the directory
+  // tree.
+  void freeTree(Node *node);
+
+  void scanDirTask(const std::string &dir, ResultEndScan &globalRes,
+                   ThreadPool &pool, ConcurrentQueue<FileInfo> &outQueue);
+
 public:
-    Scanner();
-    ~Scanner();
-    /**
-     * @brief Scans the specified directory and returns the result.
-     * @param dir The directory path to scan. Defaults to "C:\\" if not specified on Windows.
-     * @return A ResultEndScan structure containing the total size and file count.
-     */
-    ResultEndScan PathScanner(std::string dir = "C:\\");
+  Scanner();
+  ~Scanner();
+
+  ResultEndScan PathScannerSingleThread(std::string dir = "C:\\");
+
+  ResultEndScan PathScannerMultiThread(const std::string &dir, ThreadPool &pool,
+                                       ConcurrentQueue<FileInfo> &outQueue);
 };
 
 #endif // SCANNER_H__
