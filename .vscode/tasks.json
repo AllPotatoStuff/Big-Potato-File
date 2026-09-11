@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Make and Run",
+            "label": "CMake Configure",
             "type": "shell",
-            "command": "make depend; make",
+            "command": "cmake -B build -S .",
             "group": {
                 "kind": "build",
                 "isDefault": false
@@ -12,48 +12,66 @@
             "problemMatcher": []
         },
         {
-            "label": "Make Parallel and Run",
+            "label": "CMake Build",
             "type": "shell",
-            "command": "make depend; make -j8",
+            "command": "cmake -B build -S .; cmake --build build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "CMake Build Parallel",
+            "type": "shell",
+            "command": "cmake -B build -S .; cmake --build build --parallel 8",
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$msCompile"
+            ]
         },
         {
-            "label": "Re-Make and Run",
+            "label": "CMake Rebuild",
             "type": "shell",
-            "command": "make depend; make clean; make",
+            "command": "cmake -B build -S .; cmake --build build --target clean; cmake --build build",
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$msCompile"
+            ]
         },
         {
-            "label": "Re-Make Parallel and Run",
+            "label": "CMake Rebuild Parallel",
             "type": "shell",
-            "command": "make depend; make clean; make -j8",
+            "command": "cmake -B build -S .; cmake --build build --target clean; cmake --build build --parallel 8",
             "group": {
                 "kind": "build",
                 "isDefault": false
             },
-            "problemMatcher": []
+            "problemMatcher": [
+                "$msCompile"
+            ]
         },
         {
-            "label": "Make Clean",
+            "label": "CMake Clean",
             "type": "shell",
-            "command": "make clean",
+            "command": "cmake --build build --target clean",
             "group": {
                 "kind": "build",
                 "isDefault": false
             }
         },
         {
-            "label": "Make Depend",
+            "label": "CMake Full Reset",
             "type": "shell",
-            "command": "make depend",
+            "command": "rmdir /s /q build & cmake -B build -S .",
             "group": {
                 "kind": "build",
                 "isDefault": false
