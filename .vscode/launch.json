@@ -3,85 +3,80 @@
     "configurations": [
         {
             "name": "Build and Run",
-            "type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Make and Run",
-            "program": "${workspaceFolder}/main.exe",
+            "preLaunchTask": "CMake Build",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "environment": [],
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
+            "console": "internalConsole"
         },
         {
             "name": "Build Parallel and Run",
-            "type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Make Parallel and Run",
-            "program": "${workspaceFolder}/main.exe",
+            "preLaunchTask": "CMake Build Parallel",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "environment": [],
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
+            "stopAtEntry": false
         },
         {
             "name": "Re-Build and Run",
-            "type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Re-Make and Run",
-            "program": "${workspaceFolder}/main.exe",
+            "preLaunchTask": "CMake Rebuild",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "environment": [],
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
+            "stopAtEntry": false
         },
         {
             "name": "Re-Build Parallel and Run",
-            "type": "cppdbg",
+            "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Re-Make Parallel and Run",
-            "program": "${workspaceFolder}/main.exe",
+            "preLaunchTask": "CMake Rebuild Parallel",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "environment": [],
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
+            "stopAtEntry": false
+        },
+        {
+            "name": "Run: scan",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "CMake Build",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
+            "args": [
+                "scan",
+                "-p",
+                "${workspaceFolder}"
             ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Run: index",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "CMake Build",
+            "program": "${workspaceFolder}/build/Debug/bigpotatofile.exe",
+            "args": [
+                "index",
+                "-p",
+                "${workspaceFolder}"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
         },
         {
             "name": "Clean",
             "type": "node-terminal",
-            // "request": "launch",
-            "preLaunchTask": "Make Clean",
+            "request": "launch",
+            "preLaunchTask": "CMake Clean"
         }
     ]
 }
